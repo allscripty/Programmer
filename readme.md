@@ -1,74 +1,49 @@
-# Programmer
+# Starlight Starter Kit: Basics
 
-Here in this repository I upload content related to C programming, PHP, HTML, CSS, and JavaScript.
+[![Built with Starlight](https://astro.badg.es/v2/built-with-starlight/tiny.svg)](https://starlight.astro.build)
 
-## Table of contents
+```
+npm create astro@latest -- --template starlight
+```
 
-- [About](#about)  
-- [Repository layout](#repository-layout)  
-- [Pre-Requsit before starting](#pre-requsit-before-starting)  
+> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
 
-## About
+## 🚀 Project Structure
 
-Collection of program questions, program solutions, and their explanation regarding C, PHP, HTML/CSS, and JS. It also consist **readme file** in each folder which explain how to nevigate and purpose each folder content"
+Inside of your Astro + Starlight project, you'll see the following folders and files:
 
-## Repository layout
+```
+.
+├── public/
+├── src/
+│   ├── assets/
+│   ├── content/
+│   │   └── docs/
+│   └── content.config.ts
+├── astro.config.mjs
+├── package.json
+└── tsconfig.json
+```
 
-Suggested structure:
+Starlight looks for `.md` or `.mdx` files in the `src/content/docs/` directory. Each file is exposed as a route based on its file name.
 
-- /Programmer  
-  - /CSS
-     1. CSS_programs_all (folder)
-     2. CSS_explained.md
-     3. CSS_questions.md
-     4. README.md
-  - /HTML
-     1. HTML_programs_all (folder)  
-     2. HTML_explained.md
-     3. HTML_questions.md
-     4. README.md
-  - /JS
-     1. JS_programs_all (folder)  
-     2. JS_explained.md
-     3. JS_questions.md
-     4. README.md
-  - /PHP_Programs
-     1. PHP_programs_all (folder)
-     2. PHP_questions.md
-     3. README.md
-  - /c_Programs  
-    1. Array_Matrix_String (folder)  
-    2. Basic_Programs (folder)  
-    3. File_Handling (folder)  
-    4. Function_Structure (folder)  
-    5. Pointer (folder)  
-    6. Series_and_Conversion (folder)  
-    7. C_EXPLAINED.md
-    8. C_QUESTION.md
-    9. README.md
-  - readme.md — this file
-  - .gitignore
-  - .gitattributes
-  - LICENSE  
+Images can be added to `src/assets/` and embedded in Markdown with a relative link.
 
-## Pre-Requsit before starting
+Static assets, like favicons, can be placed in the `public/` directory.
 
-Requirements for C Programming
+## 🧞 Commands
 
-- Programming software with proper C compiler. (e.g: Dev C++ by **orwelldevcpp** in sourceforge.net
+All commands are run from the root of the project, from a terminal:
 
-Requirements for HTML, CSS and JS (Client-side scripting) - Frontend
+| Command                   | Action                                           |
+| :------------------------ | :----------------------------------------------- |
+| `npm install`             | Installs dependencies                            |
+| `npm run dev`             | Starts local dev server at `localhost:4321`      |
+| `npm run build`           | Build your production site to `./dist/`          |
+| `npm run preview`         | Preview your build locally, before deploying     |
+| `npm run astro ...`       | Run CLI commands like `astro add`, `astro check` |
+| `npm run astro -- --help` | Get help using the Astro CLI                     |
 
-- Modern browser like google chrome, brave, etc.
-- Text editor like **SublimeText** or **Visual Studio Code** which are installed properly and necessary extensions are present.
+## 👀 Want to learn more?
 
-Requirements for PHP (Server-side scripting) - Backend
-
-- Modern browser like google chrome, brave, etc.
-- Xampp control panel for setting the local web development environment
-- Text editor like **SublimeText** or **Visual Studio Code** which are installed properly and necessary extensions are present.
-
-Other requirements:
-
-- Github account to maintain the track of different versions of code.
-- git bash to help add, commit, push the change to the gitrepo and to peroform other git operations
+Check out [Starlight’s docs](https://starlight.astro.build/), read [the Astro documentation](https://docs.astro.build), or jump into the [Astro Discord server](https://astro.build/chat).
