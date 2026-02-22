@@ -1,0 +1,29 @@
+---
+title: "Simple interest"
+description: "C Program for Simple interest"
+difficulty: "Beginner"
+tags: ["C", "Basic Programs"]
+---
+
+import DifficultyBadge from '../../../../components/DifficultyBadge.astro';
+
+<DifficultyBadge level="Beginner" />
+
+### Code Example
+
+```c
+// Finding the simple interest using input principal, rate and time from user
+#include<stdio.h>
+int main() {
+    float principal, rate, time, SI; // P,T,R can be float values
+    printf("Enter principal amount: ");
+    scanf("%f", &principal);
+    printf("Enter rate of interest: ");
+    scanf("%f", &rate);
+    printf("Enter time in years: ");
+    scanf("%f", &time);
+    SI = (principal * rate * time) / 100;
+    printf("The Simple Interest is: %.2f\n", SI); // formatting to 2 decimal places
+    return 0;
+}
+```

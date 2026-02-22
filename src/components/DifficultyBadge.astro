@@ -1,0 +1,15 @@
+---
+// This runs on the server
+const { level } = Astro.props;
+
+let color = 'from-emerald-400 to-teal-500 text-teal-950 border-teal-200/50 shadow-emerald-500/20';
+if (level === 'Intermediate') color = 'from-amber-400 to-orange-500 text-orange-950 border-orange-200/50 shadow-amber-500/20';
+if (level === 'Advanced' || level === 'Exam-Prep') color = 'from-rose-400 to-red-500 text-rose-950 border-rose-200/50 shadow-rose-500/20';
+---
+
+<span class={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full border border-white/40 bg-gradient-to-tr font-bold text-xs tracking-wider uppercase shadow-lg shadow-sm backdrop-blur-md mb-6 ${color}`}>
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-4 h-4 opacity-80">
+    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm.75-11.25a.75.75 0 00-1.5 0v2.518l-1.058-.529a.75.75 0 00-.684 1.342l2.5 1.25a.75.75 0 00.684 0l2.5-1.25a.75.75 0 10-.684-1.342L10.75 9.268V6.75z" clip-rule="evenodd" />
+  </svg>
+  {level}
+</span>

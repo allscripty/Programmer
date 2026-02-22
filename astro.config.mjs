@@ -13,27 +13,28 @@ export default defineConfig({
         './src/styles/global.css',
       ],
       social: [
-        { icon: 'github', href: 'https://github.com/allscripty/programs', label: 'GitHub' },
+        { icon: 'github', href: 'https://github.com/allscripty/Programmer', label: 'GitHub' },
       ],
       // Adds a nice "Edit this page" link to the bottom of all notes
       editLink: {
-        baseUrl: 'https://github.com/allscripty/college-code-hub/edit/main/',
+        baseUrl: 'https://github.com/allscripty/Programmer/edit/main/',
       },
       sidebar: [
-        {
-          label: 'Getting Started',
-          items: [
-            { label: 'Introduction', link: '/guides/intro/' },
-            { label: 'How to Contribute', link: '/guides/contribute/' },
-          ],
-        },
         {
           label: 'C Programming',
           autogenerate: { directory: 'c-programming' },
         },
         {
-          label: 'Web Dev (HTML/CSS)',
+          label: 'HTML Basics',
           autogenerate: { directory: 'html' },
+        },
+        {
+          label: 'CSS Styling',
+          autogenerate: { directory: 'css' },
+        },
+        {
+          label: 'JavaScript Projects',
+          autogenerate: { directory: 'js' },
         },
         {
           label: 'PHP Scripts',

@@ -1,40 +1,106 @@
 ---
-title: Welcome to Starlight
-description: Get started building your docs site with Starlight.
-template: splash # Remove or comment out this line to display the site sidebar on this page.
+title: Welcome to Code Club
+description: Your ultimate collection of programs and scripts.
+template: splash
 hero:
-  tagline: Congrats on setting up a new Starlight project!
-  image:
-    file: ../../assets/houston.webp
-  actions:
-    - text: Example Guide
-      link: /guides/example/
-      icon: right-arrow
-    - text: Read the Starlight docs
-      link: https://starlight.astro.build
-      icon: external
-      variant: minimal
+  title: "" 
 ---
 
-import { Card, CardGrid } from '@astrojs/starlight/components';
+<div class="flex flex-col items-center justify-center min-h-[75vh] text-center font-sans tracking-tight relative z-10">
+  
+  <h1 class="text-7xl md:text-9xl font-black mb-6 text-transparent bg-clip-text bg-gradient-to-br from-indigo-400 via-purple-400 to-pink-400 drop-shadow-sm hover:scale-[1.02] transition-transform duration-500 cursor-default">
+    Code Club
+  </h1>
+  
+  <div class="text-xl md:text-2xl font-semibold text-zinc-600 dark:text-zinc-400 mb-2">
+    Rule #1 We don't talk about code club.
+  </div>
+  <div class="text-xl md:text-2xl font-semibold text-zinc-600 dark:text-zinc-400 mb-12">
+    Rule #2 Don't forget rule #1.
+  </div>
 
-## Next steps
+  <div class="w-full max-w-3xl relative mb-16 group">
+    <div class="absolute -inset-1.5 bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 rounded-full blur opacity-30 group-hover:opacity-100 transition duration-1000 group-hover:duration-300 animate-pulse"></div>
+    <div class="relative flex items-center w-full px-8 py-5 bg-white/80 dark:bg-zinc-900/80 backdrop-blur-xl border border-white/40 dark:border-zinc-700/50 rounded-full shadow-2xl transition-all group-hover:bg-white dark:group-hover:bg-zinc-900">
+      <input 
+        type="text" 
+        placeholder="Search everything..." 
+        class="flex-1 bg-transparent outline-none text-2xl text-zinc-800 dark:text-zinc-100 placeholder-zinc-400 font-medium tracking-wide" 
+      />
+      <span class="text-indigo-500 dark:text-indigo-400 ml-4 group-hover:scale-110 group-hover:rotate-12 transition-transform duration-300">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+        </svg>
+      </span>
+    </div>
+  </div>
 
-<CardGrid stagger>
-	<Card title="Update content" icon="pencil">
-		Edit `src/content/docs/index.mdx` to see this page change.
-	</Card>
-	<Card title="Change page layout" icon="document">
-		Delete `template: splash` in `src/content/docs/index.mdx` to display a
-		sidebar on this page.
-	</Card>
-	<Card title="Add new content" icon="add-document">
-		Add Markdown or MDX files to `src/content/docs` to create new pages.
-	</Card>
-	<Card title="Configure your site" icon="setting">
-		Edit your `sidebar` and other config in `astro.config.mjs`.
-	</Card>
-	<Card title="Read the docs" icon="open-book">
-		Learn more in [the Starlight Docs](https://starlight.astro.build/).
-	</Card>
-</CardGrid>
+  <div class="grid grid-cols-1 md:grid-cols-4 gap-6 w-full max-w-6xl mb-24 text-left">
+    
+    <a href="/c-programming/introduction/" class="block p-8 bg-zinc-50 dark:bg-zinc-900 hover:bg-white dark:hover:bg-zinc-800 rounded-3xl border-2 border-zinc-200 dark:border-zinc-800 hover:border-blue-500 dark:hover:border-blue-500 transition-all hover:shadow-2xl hover:-translate-y-1 group relative overflow-hidden">
+      <div class="flex items-center gap-2 text-sm font-bold text-blue-600 dark:text-blue-400 mb-4 uppercase tracking-widest relative z-10">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" /></svg>
+        Trending
+      </div>
+      <div class="flex items-center gap-4 justify-between relative z-10">
+        <div class="font-extrabold text-2xl text-zinc-900 dark:text-zinc-50 leading-tight">Learn C<br/>Program</div>
+        <div class="w-16 h-16 bg-blue-100 dark:bg-zinc-800 rounded-2xl flex items-center justify-center text-blue-600 dark:text-blue-400 font-black text-3xl group-hover:scale-110 group-hover:rotate-6 transition-transform shadow-inner">
+          C
+        </div>
+      </div>
+      <div class="mt-6 text-blue-600 font-bold text-lg flex items-center gap-2 group-hover:translate-x-2 transition-transform relative z-10">
+        Let's go <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M12.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-2.293-2.293a1 1 0 010-1.414z" clip-rule="evenodd" /></svg>
+      </div>
+    </a>
+
+    <a href="/js/introduction/" class="block p-8 bg-zinc-50 dark:bg-zinc-900 hover:bg-white dark:hover:bg-zinc-800 rounded-3xl border-2 border-zinc-200 dark:border-zinc-800 hover:border-yellow-500 dark:hover:border-yellow-500 transition-all hover:shadow-2xl hover:-translate-y-1 group relative overflow-hidden">
+      <div class="flex items-center gap-2 text-sm font-bold text-yellow-600 dark:text-yellow-400 mb-4 uppercase tracking-widest relative z-10">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" /></svg>
+        Most Liked
+      </div>
+      <div class="flex items-center gap-4 justify-between relative z-10">
+        <div class="font-extrabold text-2xl text-zinc-900 dark:text-zinc-50 leading-tight">JS from<br/>Scratch</div>
+        <div class="w-16 h-16 bg-yellow-100 dark:bg-zinc-800 rounded-2xl flex items-center justify-center text-yellow-600 dark:text-yellow-400 font-black text-3xl group-hover:scale-110 group-hover:rotate-6 transition-transform shadow-inner">
+          JS
+        </div>
+      </div>
+       <div class="mt-6 text-yellow-600 font-bold text-lg flex items-center gap-2 group-hover:translate-x-2 transition-transform relative z-10">
+        Let's go <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M12.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-2.293-2.293a1 1 0 010-1.414z" clip-rule="evenodd" /></svg>
+      </div>
+    </a>
+
+    <a href="/html/introduction/" class="block p-8 bg-zinc-50 dark:bg-zinc-900 hover:bg-white dark:hover:bg-zinc-800 rounded-3xl border-2 border-zinc-200 dark:border-zinc-800 hover:border-orange-500 dark:hover:border-orange-500 transition-all hover:shadow-2xl hover:-translate-y-1 group relative overflow-hidden">
+      <div class="flex items-center gap-2 text-sm font-bold text-orange-600 dark:text-orange-400 mb-4 uppercase tracking-widest relative z-10">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" /></svg>
+        Beginner-friendly
+      </div>
+      <div class="flex items-center gap-4 justify-between relative z-10">
+        <div class="font-extrabold text-2xl text-zinc-900 dark:text-zinc-50 leading-tight">Learn HTML<br/>from basics</div>
+        <div class="w-16 h-16 bg-orange-100 dark:bg-zinc-800 rounded-2xl flex items-center justify-center text-orange-600 dark:text-orange-400 font-black text-3xl group-hover:scale-110 group-hover:rotate-6 transition-transform shadow-inner">
+          5
+        </div>
+      </div>
+       <div class="mt-6 text-orange-600 font-bold text-lg flex items-center gap-2 group-hover:translate-x-2 transition-transform relative z-10">
+        Let's go <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M12.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-2.293-2.293a1 1 0 010-1.414z" clip-rule="evenodd" /></svg>
+      </div>
+    </a>
+
+    <a href="/guides/intro/" class="block p-8 bg-zinc-100 dark:bg-zinc-800 hover:bg-zinc-200 dark:hover:bg-zinc-700 rounded-3xl border-2 border-transparent transition-all hover:shadow-2xl hover:-translate-y-1 flex flex-col justify-center items-center text-center group cursor-pointer">
+       <div class="font-extrabold text-2xl text-zinc-900 dark:text-zinc-50 mb-6">See more</div>
+       <div class="w-20 h-20 bg-white dark:bg-zinc-900 rounded-full flex items-center justify-center text-zinc-900 dark:text-zinc-50 shadow-md group-hover:scale-110 transition-transform">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M14 5l7 7m0 0l-7 7m7-7H3" /></svg>
+       </div>
+    </a>
+
+  </div>
+
+  <div class="mt-12 pt-12 w-full flex flex-col items-center opacity-80 hover:opacity-100 transition-opacity">
+    <p class="text-xl text-zinc-600 dark:text-zinc-400 font-medium mb-3">
+      Made with <span class="text-red-500 animate-bounce inline-block">❤️</span> By Avaya & Sandip Shrestha
+    </p>
+    <a href="https://github.com/allscripty/Programmer" target="_blank" rel="noopener noreferrer" class="text-lg text-zinc-500 hover:text-zinc-900 dark:hover:text-zinc-200 transition-colors font-medium border-b-2 border-zinc-300 dark:border-zinc-700 hover:border-zinc-900 dark:hover:border-zinc-200 pb-1">
+      Support or contribute at github.com
+    </a>
+  </div>
+
+</div>

@@ -1,1 +1,56 @@
 @import "tailwindcss";
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@400;500;600;700;800&display=swap');
+
+:root {
+    /* Elevate typography to use premium fonts */
+    --sl-font: 'Inter', sans-serif;
+    --sl-font-system-ui: 'Inter', sans-serif;
+    --sl-font-heading: 'Outfit', sans-serif;
+
+    /* Primary brand colors - Sleek modern violet/blue */
+    --sl-color-accent-low: #1e1b4b;
+    --sl-color-accent: #6366f1;
+    --sl-color-accent-high: #c7d2fe;
+
+    /* Background colors (dark mode by default) */
+    --sl-color-bg-nav: rgba(15, 23, 42, 0.7) !important;
+    --sl-color-bg: #0b0f19;
+
+    /* Adding a very subtle backdrop blur to the header */
+    --sl-nav-backdrop-filter: blur(12px);
+}
+
+/* Specific Starlight overrides for a more premium feel */
+body {
+    background-color: var(--sl-color-bg);
+    background-image:
+        radial-gradient(at 0% 0%, rgba(99, 102, 241, 0.15) 0px, transparent 50%),
+        radial-gradient(at 100% 0%, rgba(168, 85, 247, 0.15) 0px, transparent 50%);
+    background-attachment: fixed;
+    background-size: cover;
+}
+
+/* Glassmorphism sidebar if possible */
+sl-sidebar-state-manager {
+    background: transparent !important;
+}
+
+/* Card hover effects globally */
+.card {
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+}
+
+.card:hover {
+    transform: translateY(-4px) !important;
+    box-shadow: 0 10px 25px -5px rgba(99, 102, 241, 0.2), 0 8px 10px -6px rgba(99, 102, 241, 0.1) !important;
+    border-color: rgba(99, 102, 241, 0.3) !important;
+}
+
+/* Make header floating */
+header.header {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05) !important;
+    background-color: var(--sl-color-bg-nav) !important;
+    backdrop-filter: var(--sl-nav-backdrop-filter) !important;
+    -webkit-backdrop-filter: var(--sl-nav-backdrop-filter) !important;
+}
