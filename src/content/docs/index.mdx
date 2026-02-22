@@ -6,6 +6,16 @@ hero:
   title: "" 
 ---
 
+<script is:inline>{`
+  (function() {
+    var prev = document.documentElement.dataset.theme;
+    document.documentElement.dataset.theme = 'dark';
+    window.addEventListener('beforeunload', function() {
+      if (prev) document.documentElement.dataset.theme = prev;
+    });
+  })();
+`}</script>
+
 <div class="flex flex-col items-center justify-between h-[100vh] w-full max-w-5xl mx-auto font-sans tracking-tight relative z-10 overflow-hidden px-6 md:px-10 pt-0 pb-4">
   
   {/* Glowing Background Orbs */}

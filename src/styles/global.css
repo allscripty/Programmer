@@ -42,10 +42,16 @@ body {
 :root[data-has-hero] {
     --sl-nav-height: 0rem !important;
     --sl-mobile-toc-height: 0rem !important;
+    color-scheme: dark;
 }
 
+/* Force dark theme on the landing page regardless of user preference */
 :root[data-has-hero] body {
     overflow: hidden !important;
+    background-color: #0b0f19 !important;
+    background-image:
+        radial-gradient(at 0% 0%, rgba(99, 102, 241, 0.12) 0px, transparent 50%),
+        radial-gradient(at 100% 0%, rgba(168, 85, 247, 0.12) 0px, transparent 50%) !important;
 }
 
 :root[data-has-hero] header.header {
