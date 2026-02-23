@@ -1,1 +1,103 @@
 @import "tailwindcss";
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@400;500;600;700;800&display=swap');
+
+:root {
+    /* Elevate typography to use premium fonts */
+    --sl-font: 'Inter', sans-serif;
+    --sl-font-system-ui: 'Inter', sans-serif;
+    --sl-font-heading: 'Outfit', sans-serif;
+
+    /* Light Mode Variables Default */
+    --sl-color-accent-low: #eef2ff;
+    --sl-color-accent: #6366f1;
+    --sl-color-accent-high: #4f46e5;
+    --sl-color-bg-nav: rgba(255, 255, 255, 0.7) !important;
+    --sl-color-bg: #f8fafc;
+    --sl-nav-backdrop-filter: blur(12px);
+    --header-border-color: rgba(0, 0, 0, 0.05);
+}
+
+:root[data-theme="dark"] {
+    /* Dark Mode Variables */
+    --sl-color-accent-low: #1e1b4b;
+    --sl-color-accent: #6366f1;
+    --sl-color-accent-high: #c7d2fe;
+    --sl-color-bg-nav: rgba(15, 23, 42, 0.7) !important;
+    --sl-color-bg: #0b0f19;
+    --header-border-color: rgba(255, 255, 255, 0.05);
+}
+
+/* Specific Starlight overrides for a more premium feel */
+body {
+    background-color: var(--sl-color-bg);
+    background-image:
+        radial-gradient(at 0% 0%, rgba(99, 102, 241, 0.12) 0px, transparent 50%),
+        radial-gradient(at 100% 0%, rgba(168, 85, 247, 0.12) 0px, transparent 50%);
+    background-attachment: fixed;
+    background-size: cover;
+}
+
+/* Hide the Navbar completely on the splash/landing page and disable scroll */
+:root[data-has-hero] {
+    --sl-nav-height: 0rem !important;
+    --sl-mobile-toc-height: 0rem !important;
+    color-scheme: dark;
+}
+
+/* Force dark theme on the landing page regardless of user preference */
+:root[data-has-hero] body {
+    overflow: hidden !important;
+    background-color: #0b0f19 !important;
+    background-image:
+        radial-gradient(at 0% 0%, rgba(99, 102, 241, 0.12) 0px, transparent 50%),
+        radial-gradient(at 100% 0%, rgba(168, 85, 247, 0.12) 0px, transparent 50%) !important;
+}
+
+:root[data-has-hero] header.header {
+    display: none !important;
+}
+
+:root[data-has-hero] .page,
+:root[data-has-hero] .main-frame {
+    margin-top: 0 !important;
+    padding-top: 0 !important;
+}
+
+:root[data-has-hero] .hero {
+    display: none !important;
+}
+
+:root[data-has-hero] .content-panel,
+:root[data-has-hero] .main-pane {
+    padding: 0 !important;
+    margin: 0 !important;
+}
+
+:root[data-has-hero] main {
+    padding: 0 !important;
+}
+
+/* Glassmorphism sidebar if possible */
+sl-sidebar-state-manager {
+    background: transparent !important;
+}
+
+/* Card hover effects globally */
+.card {
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+}
+
+.card:hover {
+    transform: translateY(-4px) !important;
+    box-shadow: 0 10px 25px -5px rgba(99, 102, 241, 0.15), 0 8px 10px -6px rgba(99, 102, 241, 0.05) !important;
+    border-color: rgba(99, 102, 241, 0.3) !important;
+}
+
+/* Make header floating globally (except splash where it's hidden) */
+header.header {
+    border-bottom: 1px solid var(--header-border-color) !important;
+    background-color: var(--sl-color-bg-nav) !important;
+    backdrop-filter: var(--sl-nav-backdrop-filter) !important;
+    -webkit-backdrop-filter: var(--sl-nav-backdrop-filter) !important;
+}

@@ -1,0 +1,38 @@
+---
+title: Pre-Requisites & Setup
+description: Setting up your development environment.
+---
+
+Before diving into the code, you'll need to set up your development environment properly.
+
+## Requirements for C Programming
+
+To write and compile C programs, you need a C compiler.
+
+- **Windows**: Install [Dev C++](https://sourceforge.net/projects/orwelldevcpp/) or MinGW-w64.
+- **macOS / Linux**: You can use the built-in `gcc` or `clang` compilers available via the terminal.
+
+## Requirements for Web (HTML, CSS, JS)
+
+Frontend development only requires a text editor and a web browser.
+
+- **Web Browser**: A modern browser like Google Chrome, Brave, Firefox, or Edge.
+- **Text Editor**: [Visual Studio Code](https://code.visualstudio.com/) or Sublime Text.
+
+## Requirements for PHP (Backend)
+
+Because PHP is a server-side scripting language, it requires a local server environment to run on your machine.
+
+- **Local Server**: [XAMPP](https://www.apachefriends.org/index.html), Laragon, or WampServer.
+- **Text Editor**: Visual Studio Code or Sublime Text.
+
+### How to run PHP code (with XAMPP)
+
+1. Open your code editor and write your PHP code.
+2. **Crucial Step**: Save your `.php` file inside the `C:\xampp\htdocs\` folder.
+3. Open the **XAMPP Control Panel** and start **Apache** and **MySQL**.
+4. Open your web browser and navigate to `http://localhost/your_file.php`.
+
+*(If you saved it inside a subfolder, e.g., `C:\xampp\htdocs\my_project\your_file.php`, then navigate to `http://localhost/my_project/your_file.php`)*
+
+To view database results, navigate to `http://localhost/phpmyadmin` in your browser.

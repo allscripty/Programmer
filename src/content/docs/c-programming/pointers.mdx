@@ -1,0 +1,29 @@
+---
+title: "Understanding Pointers"
+description: "A complete guide to pointers in C with examples."
+difficulty: "Advanced"
+tags: ["C", "Memory", "Sem-1"]
+---
+
+import DifficultyBadge from '../../../components/DifficultyBadge.astro';
+
+<DifficultyBadge level="Advanced" />
+
+Pointers are variables that store the memory address of another variable. Here is the classic swap function:
+
+```c
+#include <stdio.h>
+
+void swap(int *a, int *b) {
+    int temp = *a;
+    *a = *b;
+    *b = temp;
+}
+
+int main() {
+    int x = 10, y = 20;
+    swap(&x, &y);
+    printf("x: %d, y: %d", x, y);
+    return 0;
+}
+```

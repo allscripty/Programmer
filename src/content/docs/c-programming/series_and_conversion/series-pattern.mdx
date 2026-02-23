@@ -1,0 +1,28 @@
+---
+title: "Print Series: 1, 6, 11..."
+description: "Print a mathematical series up to 101."
+tags: ["C Programming", "Series", "Loops"]
+---
+
+import DifficultyBadge from '../../../../components/DifficultyBadge.astro';
+
+<DifficultyBadge level="Beginner" />
+
+This program prints a series starting from 1 up to 101, incrementing by 5 at each step.
+
+```c
+// Displaying the series pattern of : 1, 6, 11, 16,...,101.
+
+#include<stdio.h>
+int main()
+{
+    int i;
+    printf("The series pattern is given below: \n");
+
+    for (i = 1; i <= 101; i+=5) // Loop from 1 to 101 with step 5 because the difference between consecutive numbers in the series is 5
+    {
+        printf("  %d  ", i); // Print the current value of i that matches the condition.
+    }
+    return 0;
+}
+```
