@@ -1,0 +1,69 @@
+---
+import { SESSION_COOKIE_NAME } from '../lib/auth';
+import { readSession } from '../lib/session';
+
+const session = Astro.isPrerendered
+  ? null
+  : await readSession(Astro.cookies.get(SESSION_COOKIE_NAME)?.value);
+
+const sessionHtml = session
+  ? `${session.avatar ? '<img src="' + session.avatar + '" alt="' + session.name + '" width="32" height="32" /> ' : ''}Logged in as <strong>${session.name}</strong> via ${session.provider}`
+  : '';
+---
+
+<>
+  <div id="auth-status" data-session-html={sessionHtml}>
+    {session ? (
+      <p>
+        {session.avatar && (
+          <img src={session.avatar} alt={session.name} width="32" height="32" />
+        )}
+        {' '}Logged in as <strong>{session.name}</strong> via {session.provider}
+      </p>
+    ) : (
+      <p>
+        <a href="/api/auth/github">Login with GitHub</a>
+        {' · '}
+        <a href="/api/auth/discord">Login with Discord</a>
+      </p>
+    )}
+  </div>
+
+  <script is:inline>
+    (function () {
+      const container = document.getElementById('auth-status');
+      if (!container) return;
+
+      const loginHtml =
+        '<p><a href="/api/auth/github">Login with GitHub</a> · <a href="/api/auth/discord">Login with Discord</a></p>';
+      const initialSessionHtml = container.getAttribute('data-session-html');
+
+      if (initialSessionHtml) {
+        container.innerHTML = '<p>' + initialSessionHtml + '</p>';
+      }
+
+      fetch('/api/auth/session', { credentials: 'include' })
+        .then(function (response) {
+          return response.ok ? response.json() : null;
+        })
+        .then(function (data) {
+          if (!data || !data.session) {
+            container.innerHTML = loginHtml;
+            return;
+          }
+
+          const avatar = data.session.avatar
+            ? '<img src="' + data.session.avatar + '" alt="' + data.session.name + '" width="32" height="32" /> '
+            : '';
+
+          container.innerHTML =
+            '<p>' + avatar + 'Logged in as <strong>' + data.session.name + '</strong> via ' + data.session.provider + '</p>';
+        })
+        .catch(function () {
+          if (!initialSessionHtml) {
+            container.innerHTML = loginHtml;
+          }
+        });
+    })();
+  </script>
+</>

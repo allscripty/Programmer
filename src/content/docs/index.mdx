@@ -15,8 +15,13 @@ hero:
       icon: external
       variant: minimal
 ---
-
+export const prerender = false;
 import { Card, CardGrid } from '@astrojs/starlight/components';
+import AuthStatus from '../../components/AuthStatus.astro';
+
+## Authentication
+
+<AuthStatus />
 
 ## Next steps
 
