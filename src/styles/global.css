@@ -55,7 +55,20 @@ body {
 }
 
 :root[data-has-hero] header.header {
-    display: none !important;
+    visibility: hidden !important;
+    position: absolute !important;
+    height: 0 !important;
+    overflow: hidden !important;
+    pointer-events: none !important;
+}
+
+/* Let the search dialog escape and render when opened */
+:root[data-has-hero] header.header site-search dialog[open] {
+    visibility: visible !important;
+    pointer-events: auto !important;
+}
+:root[data-has-hero] header.header site-search dialog[open] * {
+    visibility: visible !important;
 }
 
 :root[data-has-hero] .page,

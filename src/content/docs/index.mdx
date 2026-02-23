@@ -37,15 +37,195 @@ hero:
   </div>
 
   {/* Search Bar */}
-  <button onclick="document.querySelector('button[data-open-modal]')?.click()" class="relative z-20 w-full max-w-2xl mx-auto mb-8 lg:mb-10 flex items-center bg-white dark:bg-zinc-800/70 border border-zinc-200 dark:border-white/10 rounded-full shadow-lg shadow-zinc-200/40 dark:shadow-none backdrop-blur-xl cursor-pointer hover:border-indigo-400 dark:hover:border-indigo-500/40 hover:shadow-xl hover:shadow-indigo-500/10 transition-all duration-300 group select-none overflow-hidden">
+  <style is:inline>{`
+    #home-search-results mark {
+      font-weight: 700;
+      color: rgb(67 56 202); /* indigo-700 */
+      background: rgba(99, 102, 241, 0.14);
+      padding: 0 0.2em;
+      border-radius: 0.25em;
+    }
+    html[data-theme='dark'] #home-search-results mark {
+      color: rgb(199 210 254); /* indigo-200 */
+      background: rgba(99, 102, 241, 0.22);
+    }
+  `}</style>
+  <div class="relative z-20 w-full max-w-2xl mx-auto mb-8 lg:mb-10">
+    
+    <div class="group relative flex items-center w-full
+            bg-white/90 dark:bg-zinc-800/80 
+            border border-zinc-200 dark:border-white/10 
+            rounded-full 
+            shadow-md hover:shadow-lg 
+            transition-all duration-300 
+            backdrop-blur-xl">
+
+  <input
+    id="home-search-input"
+    type="search"
+    placeholder="Search anything..."
+    autocomplete="off"
+    class="w-full bg-transparent 
+           pl-5 pr-12 py-3 md:py-3.5 
+           text-sm md:text-base 
+           text-zinc-700 dark:text-zinc-200 
+           placeholder-zinc-400 dark:placeholder-zinc-500
+           focus:outline-none"
+  />
+
+  <button 
+    class="absolute right-2 
+           flex items-center justify-center 
+           w-9 h-9 
+           rounded-full 
+           bg-zinc-100 dark:bg-zinc-700 
+           hover:bg-zinc-200 dark:hover:bg-zinc-600
+           transition-colors duration-200">
+    
+    <svg class="w-4 h-4 text-zinc-500 dark:text-zinc-300"
+         fill="none"
+         viewBox="0 0 24 24"
+         stroke="currentColor">
+      <path stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+    </svg>
+
+  </button>
+</div>
+
+    <div
+      id="home-search-results"
+      class="hidden absolute left-0 right-0 top-full mt-3 z-40 rounded-2xl border border-zinc-200 dark:border-white/10 bg-white/95 dark:bg-zinc-900/95 backdrop-blur-xl shadow-xl overflow-y-auto max-h-[56vh]"
+    ></div>
+  </div>
+
+  <script is:inline>{`
+    (function () {
+      var input = document.getElementById('home-search-input');
+      var box = document.getElementById('home-search-results');
+      var timer = null;
+      var pfPromise = null;
+
+      function getPagefind() {
+        if (!pfPromise) pfPromise = import('/pagefind/pagefind.js');
+        return pfPromise;
+      }
+
+      function showMessage(msg) {
+        box.classList.remove('hidden');
+        box.innerHTML = '<p class="px-4 py-3 text-sm text-zinc-500 dark:text-zinc-400">' + msg + '</p>';
+      }
+
+      function hideBox() {
+        box.classList.add('hidden');
+        box.innerHTML = '';
+        setSearchingState(false);
+      }
+
+      function toPlainText(value) {
+        return String(value || '').replace(/<[^>]*>/g, ' ').replace(/\s+/g, ' ').trim();
+      }
+
+      function escapeHtml(value) {
+        return String(value)
+          .replace(/&/g, '&amp;')
+          .replace(/</g, '&lt;')
+          .replace(/>/g, '&gt;')
+          .replace(/"/g, '&quot;')
+          .replace(/'/g, '&#39;');
+      }
+
+      function getSnippet(value) {
+        var plain = toPlainText(value);
+        if (!plain) return '';
+        if (plain.length > 80) plain = plain.slice(0, 80).trimEnd() + '...';
+        return '.......' + plain + '.......';
+      }
+
+        function escapeRegExp(value) {
+          return String(value).replace(/[.*+?^$()|[\]\\]/g, '\\$&');
+        }
+
+        function highlightText(text, query) {
+          var safeText = escapeHtml(text || '');
+          var tokens = String(query || '').trim().split(/\s+/).filter(Boolean);
+          if (!tokens.length) return safeText;
+          var pattern = new RegExp('(' + tokens.map(escapeRegExp).join('|') + ')', 'gi');
+          return safeText.replace(pattern, '<mark>$1</mark>');
+        }
+
+        function setSearchingState(isSearching) {
+          var cardsGrid = document.getElementById('home-cards-grid');
+          if (!cardsGrid) return;
+          cardsGrid.classList.toggle('invisible', !!isSearching);
+          cardsGrid.classList.toggle('pointer-events-none', !!isSearching);
+        }
+
+      async function runSearch(q) {
+        if (!q || q.length < 2) return hideBox();
+        setSearchingState(true);
+        showMessage('Searching...');
+
+        try {
+          var pagefind = await getPagefind();
+          var search = await pagefind.search(q);
+          var results = await Promise.all(search.results.slice(0, 5).map(function (r) { return r.data(); }));
+
+          if (!results.length) return showMessage('No results found.');
+
+          box.classList.remove('hidden');
+          box.innerHTML = results.map(function (item) {
+              var rawTitle = item.meta && item.meta.title ? item.meta.title : item.url;
+            var snippet = getSnippet(item.excerpt || item.content || '');
+              var title = highlightText(rawTitle, q);
+              var highlightedSnippet = highlightText(snippet, q);
+            return (
+              '<a href="' + item.url + '" class="block px-4 py-3 border-b last:border-b-0 border-zinc-200/80 dark:border-white/10 hover:bg-zinc-50 dark:hover:bg-zinc-800/60 transition-colors">' +
+                '<p class="text-sm font-semibold text-zinc-800 dark:text-zinc-100">' + title + '</p>' +
+                  (snippet ? '<p class="mt-1 text-xs text-zinc-500 dark:text-zinc-400 whitespace-nowrap overflow-hidden text-ellipsis">' + highlightedSnippet + '</p>' : '') +
+              '</a>'
+            );
+          }).join('');
+        } catch (e) {
+          showMessage('Search is unavailable right now.');
+        }
+      }
+
+      input.addEventListener('input', function (e) {
+        clearTimeout(timer);
+        var q = e.target.value.trim();
+        setSearchingState(!!q);
+        timer = setTimeout(function () { runSearch(q); }, 180);
+      });
+
+      input.addEventListener('focus', function () {
+        var q = input.value.trim();
+        if (q.length >= 2) {
+          setSearchingState(true);
+          runSearch(q);
+        }
+      });
+
+      document.addEventListener('click', function (e) {
+        if (!box.contains(e.target) && e.target !== input) hideBox();
+      });
+    })();
+  `}</script>
+
+{/*  <button onclick="var btn=document.querySelector('button[data-open-modal]');if(btn)btn.click();" class="relative z-20 w-full max-w-2xl mx-auto mb-8 lg:mb-10 flex items-center bg-white dark:bg-zinc-800/70 border border-zinc-200 dark:border-white/10 rounded-full shadow-lg shadow-zinc-200/40 dark:shadow-none backdrop-blur-xl cursor-pointer hover:border-indigo-400 dark:hover:border-indigo-500/40 hover:shadow-xl hover:shadow-indigo-500/10 transition-all duration-300 group select-none overflow-hidden">
     <span class="flex-grow text-left px-5 py-3 text-sm md:text-base text-zinc-400 dark:text-zinc-500 font-medium">Search anything...</span>
     <div class="w-10 h-10 md:w-11 md:h-11 m-1 bg-indigo-600 dark:bg-indigo-500 rounded-full flex items-center justify-center flex-shrink-0 group-hover:bg-indigo-700 dark:group-hover:bg-indigo-400 transition-colors duration-300">
       <svg class="w-4 h-4 md:w-5 md:h-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" /></svg>
     </div>
   </button>
+*/}
+
+
 
   {/* Cards Grid */}
-  <div class="grid grid-cols-2 lg:grid-cols-4 gap-3 lg:gap-4 w-full relative z-20 mb-6 lg:mb-8">
+  <div id="home-cards-grid" class="grid grid-cols-2 lg:grid-cols-4 gap-3 lg:gap-4 w-full relative z-20 mb-6 lg:mb-8">
     
     {/* Card 1: C Programming */}
     <a href="/c-programming/introduction/" class="group relative flex flex-col bg-white dark:bg-zinc-900/50 rounded-2xl border border-zinc-200 dark:border-white/10 hover:border-indigo-400 dark:hover:border-indigo-500/40 shadow-md shadow-zinc-100 dark:shadow-none hover:shadow-xl hover:shadow-indigo-500/10 transition-all duration-300 hover:-translate-y-1 overflow-hidden select-none p-4 lg:p-5">
