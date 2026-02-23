@@ -21,7 +21,7 @@ export const GET: APIRoute = async (context: APIContext) => {
 
   const env = (platform?.env ?? import.meta.env) as Record<string, string>;
 
-  const discord = createDiscordOAuth(env);
+  const discord = createDiscordOAuth(env, url);
 
   if (!discord) {
     return new Response("Discord OAuth not configured", { status: 500 });

@@ -1,34 +1,48 @@
 import { Discord, GitHub } from 'arctic';
 
-export function createGithubOAuth(env: Record<string, string>) {
+export function createGithubOAuth(env: Record<string, string>, requestUrl?: URL) {
   if (
     !env.GITHUB_CLIENT_ID ||
-    !env.GITHUB_CLIENT_SECRET ||
-    !env.GITHUB_CALLBACK_URL
+    !env.GITHUB_CLIENT_SECRET
   ) {
     return null;
   }
+
+  const callbackUrl =
+    env.GITHUB_CALLBACK_URL ||
+    (requestUrl
+      ? `${requestUrl.origin}/api/auth/github/callback`
+      : undefined);
+
+  if (!callbackUrl) return null;
 
   return new GitHub(
     env.GITHUB_CLIENT_ID,
     env.GITHUB_CLIENT_SECRET,
-    env.GITHUB_CALLBACK_URL
+    callbackUrl
   );
 }
 
-export function createDiscordOAuth(env: Record<string, string>) {
+export function createDiscordOAuth(env: Record<string, string>, requestUrl?: URL) {
   if (
     !env.DISCORD_CLIENT_ID ||
-    !env.DISCORD_CLIENT_SECRET ||
-    !env.DISCORD_CALLBACK_URL
+    !env.DISCORD_CLIENT_SECRET
   ) {
     return null;
   }
 
+  const callbackUrl =
+    env.DISCORD_CALLBACK_URL ||
+    (requestUrl
+      ? `${requestUrl.origin}/api/auth/discord/callback`
+      : undefined);
+
+  if (!callbackUrl) return null;
+
   return new Discord(
     env.DISCORD_CLIENT_ID,
     env.DISCORD_CLIENT_SECRET,
-    env.DISCORD_CALLBACK_URL
+    callbackUrl
   );
 }
 

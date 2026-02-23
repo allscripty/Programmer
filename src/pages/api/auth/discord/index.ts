@@ -13,7 +13,7 @@ export async function GET(context: APIContext) {
 
   const env = platform?.env ?? import.meta.env;
 
-  const discord = createDiscordOAuth(env as Record<string, string>);
+  const discord = createDiscordOAuth(env as Record<string, string>, context.url);
 
   if (!discord) {
     return new Response("Discord OAuth not configured", { status: 500 });

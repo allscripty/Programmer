@@ -21,7 +21,7 @@ export const GET: APIRoute = async (context: APIContext) => {
 
   const env = (platform?.env ?? import.meta.env) as Record<string, string>;
 
-  const github = createGithubOAuth(env);
+  const github = createGithubOAuth(env, url);
 
   if (!github) {
     return new Response('GitHub OAuth not configured', { status: 500 });
