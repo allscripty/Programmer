@@ -1,7 +1,6 @@
 // @ts-check
 import { defineConfig } from 'astro/config';
 import starlight from '@astrojs/starlight';
-import node from '@astrojs/node';
 
 import tailwindcss from '@tailwindcss/vite';
 
@@ -9,8 +8,9 @@ import cloudflare from '@astrojs/cloudflare';
 
 // https://astro.build/config
 export default defineConfig({
+  site: 'https://codeclub.avayashrestha.workers.dev',
   output: 'server',
-  adapter: cloudflare(),
+  adapter: cloudflare({ imageService: 'compile' }),
   integrations: [
     starlight({
       title: 'Code Club',

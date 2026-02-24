@@ -9,9 +9,11 @@ interface Props {
 
 const { fixed = false, showOnLoad = false } = Astro.props as Props;
 
+const runtimeEnv = (Astro.locals as { runtime?: { env?: Record<string, string> } } | undefined)?.runtime?.env;
+
 const session = Astro.isPrerendered
   ? null
-  : await readSession(Astro.cookies.get(SESSION_COOKIE_NAME)?.value);
+  : await readSession(Astro.cookies.get(SESSION_COOKIE_NAME)?.value, runtimeEnv);
 
 const instanceId = `auth-${Math.random().toString(36).slice(2, 10)}`;
 ---

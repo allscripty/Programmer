@@ -14,13 +14,13 @@
     "enabled": true
   },
   "vars": {
-    "DISCORD_CALLBACK_URL": "http://localhost:4321/api/auth/callback"
+    "DISCORD_CALLBACK_URL": "http://localhost:4321/api/auth/discord/callback"
   },
   "env": {
     "production": {
       "name": "codeclub",
       "vars": {
-        "DISCORD_CALLBACK_URL": "https://codeclub.avayashrestha.workers.dev/api/auth/callback"
+        "DISCORD_CALLBACK_URL": "https://codeclub.avayashrestha.workers.dev/api/auth/discord/callback"
       }
     }
   }

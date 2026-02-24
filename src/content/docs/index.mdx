@@ -7,6 +7,10 @@ hero:
 ---
 
 import AuthStatus from '../../components/AuthStatus.astro';
+import '../../styles/home-card.css';
+import cLogo from '../../assets/clogo.png';
+import jsLogo from '../../assets/jslogo.png';
+import htmlLogo from '../../assets/htmllogo.png';
 
 <script is:inline>{`
   (function() {
@@ -18,24 +22,33 @@ import AuthStatus from '../../components/AuthStatus.astro';
   })();
 `}</script>
 
+  <style is:inline>{`
+    @import url('https://fonts.googleapis.com/css2?family=Funnel+Display:wght@300..800&display=swap');
+
+    :global(html),
+    :global(body) {
+      background: #2a2a2a;
+    }
+  `}</style>
+
 <div class="flex flex-col items-center justify-between h-[100vh] w-full max-w-5xl mx-auto font-sans tracking-tight relative z-10 overflow-hidden px-6 md:px-10 pt-0 pb-4">
   <AuthStatus fixed={true} showOnLoad={true} />
   
   {/* Glowing Background Orbs */}
-  <div class="absolute top-1/4 left-[5%] w-[300px] h-[300px] bg-indigo-500/10 dark:bg-indigo-500/15 rounded-full blur-[100px] animate-pulse pointer-events-none"></div>
-  <div class="absolute bottom-1/3 right-[5%] w-[350px] h-[350px] bg-pink-500/10 dark:bg-pink-500/15 rounded-full blur-[120px] animate-pulse pointer-events-none" style="animation-delay: 2s;"></div>
+  <div class="absolute top-1/4 left-[5%] w-[300px] h-[300px] bg-indigo-500/10 dark:bg-white-500/15 rounded-full blur-[100px] animate-pulse pointer-events-none"></div>
+  <div class="absolute bottom-1/3 right-[5%] w-[350px] h-[350px] bg-pink-500/10 dark:bg-yellow-500/15 rounded-full blur-[120px] animate-pulse pointer-events-none" style="animation-delay: 2s;"></div>
 
   {/* Spacer */}
   <div class="flex-1"></div>
 
   {/* Hero Content */}
-  <div class="relative z-20 w-full text-center mb-8 lg:mb-10">
-    <h1 class="font-semibold font-mono text-2xl md:text-7xl lg:text-7xl font-white tracking-tighter mb-2 text-auto cursor-default select-none leading-tight">
-      Code Club
+  <div class="relative z-20 w-full text-center mb-12 lg:mb-14">
+    <h1 style="font-family: 'Funnel Display', sans-serif; font-size: 56px; font-weight: 300;" class="font-white tracking-tighter mb-2 text-auto cursor-default select-none leading-tight">
+      Code Club.
     </h1>
     <div class="text-sm md:text-base font-medium text-zinc-500 dark:text-zinc-400 select-none leading-relaxed">
-      Rule #1: <span class="text-indigo-600 dark:text-indigo-400 font-bold">We don't talk about code club.</span> <br/>
-      Rule #2: <span class="text-indigo-600 dark:text-indigo-400 font-bold">Don't forget rule #1.</span>
+      Rule #1: <span class=" ">We don't talk about Code Club.</span> <br/>
+      Rule #2: <span class="">Don't forget rule #1.</span>
     </div>
   </div>
 
@@ -53,7 +66,7 @@ import AuthStatus from '../../components/AuthStatus.astro';
       background: rgba(99, 102, 241, 0.22);
     }
   `}</style>
-  <div class="relative z-20 w-full max-w-2xl mx-auto mb-8 lg:mb-10">
+  <div class="relative z-20 w-full max-w-2xl mx-auto mb-12 lg:mb-14">
     
     <div class="group relative flex items-center w-full
             bg-white/90 dark:bg-zinc-800/80 
@@ -227,316 +240,17 @@ import AuthStatus from '../../components/AuthStatus.astro';
 
 
 
-  <style is:inline>{`
-    #home-cards-grid {
-      width: 100%;
-      position: relative;
-      z-index: 20;
-      margin-bottom: 1.5rem;
-      display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 0.75rem;
-    }
-
-    @media (min-width: 1024px) {
-      #home-cards-grid {
-        grid-template-columns: repeat(4, minmax(0, 1fr));
-        gap: 1rem;
-        margin-bottom: 2rem;
-      }
-    }
-
-    .home-card {
-      display: flex;
-      flex-direction: column;
-      padding: 1rem;
-      border-radius: 1rem;
-      border: 1px solid rgba(228, 228, 231, 1);
-      background: rgba(255, 255, 255, 1);
-      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.06);
-      transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
-      text-decoration: none;
-      color: inherit;
-      user-select: none;
-      overflow: hidden;
-    }
-
-    .home-card:hover {
-      transform: translateY(-4px);
-      box-shadow: 0 16px 30px rgba(0, 0, 0, 0.12);
-    }
-
-    html[data-theme='dark'] .home-card {
-      background: rgba(24, 24, 27, 0.5);
-      border-color: rgba(255, 255, 255, 0.1);
-      box-shadow: none;
-    }
-
-    .home-card-tag {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.375rem;
-      margin-bottom: 0.75rem;
-      font-size: 10px;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.06em;
-    }
-
-    .home-card-tag-icon {
-      width: 12px;
-      height: 12px;
-    }
-
-    .home-card-main {
-      display: flex;
-      align-items: center;
-      gap: 0.75rem;
-      min-width: 0;
-    }
-
-    .home-card-badge {
-      width: 40px;
-      height: 40px;
-      border-radius: 0.75rem;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 1.125rem;
-      font-weight: 900;
-      flex-shrink: 0;
-      transition: transform 0.3s ease;
-      border: 1px solid transparent;
-    }
-
-    .home-card:hover .home-card-badge {
-      transform: scale(1.08);
-    }
-
-    .home-card-text {
-      min-width: 0;
-      flex-grow: 1;
-    }
-
-    .home-card-title {
-      margin: 0;
-      font-size: 12px;
-      line-height: 1.2;
-      font-weight: 800;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      color: rgb(24, 24, 27);
-    }
-
-    html[data-theme='dark'] .home-card-title {
-      color: rgb(255, 255, 255);
-    }
-
-    .home-card-arrow {
-      width: 16px;
-      height: 16px;
-      flex-shrink: 0;
-      transition: transform 0.3s ease;
-    }
-
-    .home-card:hover .home-card-arrow {
-      transform: translateX(4px);
-    }
-
-    .home-card--c {
-      border-color: rgba(228, 228, 231, 1);
-    }
-
-    .home-card--c:hover {
-      border-color: rgba(129, 140, 248, 1);
-      box-shadow: 0 18px 30px rgba(99, 102, 241, 0.15);
-    }
-
-    .home-card--c .home-card-tag,
-    .home-card--c .home-card-arrow {
-      color: rgb(99, 102, 241);
-    }
-
-    .home-card--c .home-card-badge {
-      background: rgba(238, 242, 255, 1);
-      color: rgb(79, 70, 229);
-      border-color: rgba(224, 231, 255, 0.75);
-    }
-
-    html[data-theme='dark'] .home-card--c:hover {
-      border-color: rgba(99, 102, 241, 0.4);
-      box-shadow: 0 18px 30px rgba(99, 102, 241, 0.12);
-    }
-
-    html[data-theme='dark'] .home-card--c .home-card-tag,
-    html[data-theme='dark'] .home-card--c .home-card-arrow {
-      color: rgb(129, 140, 248);
-    }
-
-    html[data-theme='dark'] .home-card--c .home-card-badge {
-      background: rgba(99, 102, 241, 0.1);
-      color: rgb(129, 140, 248);
-      border-color: transparent;
-    }
-
-    .home-card--js:hover {
-      border-color: rgba(250, 204, 21, 1);
-      box-shadow: 0 18px 30px rgba(234, 179, 8, 0.15);
-    }
-
-    .home-card--js .home-card-tag,
-    .home-card--js .home-card-arrow {
-      color: rgb(234, 179, 8);
-    }
-
-    .home-card--js .home-card-badge {
-      background: rgba(254, 252, 232, 1);
-      color: rgb(202, 138, 4);
-      border-color: rgba(254, 249, 195, 0.8);
-    }
-
-    html[data-theme='dark'] .home-card--js:hover {
-      border-color: rgba(234, 179, 8, 0.4);
-      box-shadow: 0 18px 30px rgba(234, 179, 8, 0.12);
-    }
-
-    html[data-theme='dark'] .home-card--js .home-card-tag,
-    html[data-theme='dark'] .home-card--js .home-card-arrow {
-      color: rgb(250, 204, 21);
-    }
-
-    html[data-theme='dark'] .home-card--js .home-card-badge {
-      background: rgba(234, 179, 8, 0.1);
-      color: rgb(250, 204, 21);
-      border-color: transparent;
-    }
-
-    .home-card--html:hover {
-      border-color: rgba(251, 146, 60, 1);
-      box-shadow: 0 18px 30px rgba(249, 115, 22, 0.15);
-    }
-
-    .home-card--html .home-card-tag,
-    .home-card--html .home-card-arrow {
-      color: rgb(249, 115, 22);
-    }
-
-    .home-card--html .home-card-badge {
-      background: rgba(255, 247, 237, 1);
-      color: rgb(234, 88, 12);
-      border-color: rgba(254, 215, 170, 0.8);
-    }
-
-    html[data-theme='dark'] .home-card--html:hover {
-      border-color: rgba(249, 115, 22, 0.4);
-      box-shadow: 0 18px 30px rgba(249, 115, 22, 0.12);
-    }
-
-    html[data-theme='dark'] .home-card--html .home-card-tag,
-    html[data-theme='dark'] .home-card--html .home-card-arrow {
-      color: rgb(251, 146, 60);
-    }
-
-    html[data-theme='dark'] .home-card--html .home-card-badge {
-      background: rgba(249, 115, 22, 0.1);
-      color: rgb(251, 146, 60);
-      border-color: transparent;
-    }
-
-    .home-card--more {
-      flex-direction: row;
-      align-items: center;
-      justify-content: center;
-      gap: 0.75rem;
-    }
-
-    .home-card--more:hover {
-      border-color: rgba(161, 161, 170, 1);
-    }
-
-    html[data-theme='dark'] .home-card--more:hover {
-      border-color: rgba(113, 113, 122, 0.4);
-      box-shadow: none;
-    }
-
-    .home-card-more-icon-wrap {
-      width: 40px;
-      height: 40px;
-      border-radius: 999px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      flex-shrink: 0;
-      border: 1px solid rgba(228, 228, 231, 0.8);
-      background: rgba(244, 244, 245, 1);
-      transition: transform 0.3s ease;
-    }
-
-    .home-card--more:hover .home-card-more-icon-wrap {
-      transform: scale(1.08);
-    }
-
-    html[data-theme='dark'] .home-card-more-icon-wrap {
-      border-color: rgba(82, 82, 91, 0.55);
-      background: rgba(63, 63, 70, 0.6);
-    }
-
-    .home-card-more-icon {
-      width: 20px;
-      height: 20px;
-      color: rgb(82, 82, 91);
-      transition: transform 0.3s ease;
-    }
-
-    .home-card--more:hover .home-card-more-icon {
-      transform: translateX(2px);
-    }
-
-    html[data-theme='dark'] .home-card-more-icon {
-      color: rgb(212, 212, 216);
-    }
-
-    .home-card-more-content {
-      text-align: left;
-      min-width: 0;
-    }
-
-    .home-card-more-title {
-      margin: 0;
-      font-size: 12px;
-      line-height: 1.2;
-      font-weight: 800;
-      color: rgb(24, 24, 27);
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-    }
-
-    html[data-theme='dark'] .home-card-more-title {
-      color: rgb(255, 255, 255);
-    }
-
-    .home-card-more-subtitle {
-      margin: 0.2rem 0 0;
-      font-size: 11px;
-      line-height: 1.3;
-      font-weight: 500;
-      color: rgb(161, 161, 170);
-    }
-  `}</style>
-
   {/* Cards Grid */}
   <div id="home-cards-grid">
     
     {/* Card 1: C Programming */}
     <a href="/c-programming/introduction/" class="home-card home-card--c">
       <div class="home-card-tag">
-        <svg class="home-card-tag-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" /></svg>
-        Trending
+        <><svg class="home-card-tag-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" /></svg></>
+        <p>Trending</p>
       </div>
       <div class="home-card-main">
-        <div class="home-card-badge">C</div>
+        <div class="home-card-badge"><img src={cLogo.src} alt="C logo" /></div>
         <div class="home-card-text">
           <h3 class="home-card-title">Learn C Programming</h3>
         </div>
@@ -551,7 +265,7 @@ import AuthStatus from '../../components/AuthStatus.astro';
         Most Liked
       </div>
       <div class="home-card-main">
-        <div class="home-card-badge">JS</div>
+        <div class="home-card-badge"><img src={jsLogo.src} alt="JavaScript logo" /></div>
         <div class="home-card-text">
           <h3 class="home-card-title">JS from Scratch</h3>
         </div>
@@ -566,7 +280,7 @@ import AuthStatus from '../../components/AuthStatus.astro';
         Beginner-Friendly
       </div>
       <div class="home-card-main">
-        <div class="home-card-badge">5</div>
+        <div class="home-card-badge"><img src={htmlLogo.src} alt="HTML logo" /></div>
         <div class="home-card-text">
           <h3 class="home-card-title">Learn HTML Basics</h3>
         </div>

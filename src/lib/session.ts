@@ -31,22 +31,7 @@ function normalizeBase64Url(value: string) {
     .padEnd(value.length + ((4 - (value.length % 4)) % 4), '=');
 }
 
-async function getSigningKey() {
-  const sessionSecret = import.meta.env.SESSION_SECRET;
-  if (!sessionSecret) {
-    throw new Error('SESSION_SECRET is required for auth sessions.');
-  }
-
-  return crypto.subtle.importKey(
-    'raw',
-    new TextEncoder().encode(sessionSecret),
-    { name: 'HMAC', hash: 'SHA-256' },
-    false,
-    ['sign', 'verify'],
-  );
-}
-
-export async function signSession(session: UserSession) {
+export async function signSession(session: UserSession, env?: Record<string, string | undefined>) {
   const header = toBase64Url(JSON.stringify({ alg: 'HS256', typ: 'JWT' }));
   const payload = toBase64Url(
     JSON.stringify({
@@ -55,19 +40,41 @@ export async function signSession(session: UserSession) {
     }),
   );
   const body = `${header}.${payload}`;
-  const signature = await crypto.subtle.sign('HMAC', await getSigningKey(), new TextEncoder().encode(body));
+  const sessionSecret = env?.SESSION_SECRET ?? import.meta.env.SESSION_SECRET;
+  if (!sessionSecret) {
+    throw new Error('SESSION_SECRET is required for auth sessions.');
+  }
+  const signingKey = await crypto.subtle.importKey(
+    'raw',
+    new TextEncoder().encode(sessionSecret),
+    { name: 'HMAC', hash: 'SHA-256' },
+    false,
+    ['sign', 'verify'],
+  );
+  const signature = await crypto.subtle.sign('HMAC', signingKey, new TextEncoder().encode(body));
   return `${body}.${toBase64Url(new Uint8Array(signature))}`;
 }
 
-export async function readSession(token?: string | null) {
+export async function readSession(token?: string | null, env?: Record<string, string | undefined>) {
   if (!token) return null;
   const parts = token.split('.');
   if (parts.length !== 3) return null;
   const [header, payload, signature] = parts;
   const body = `${header}.${payload}`;
+  const sessionSecret = env?.SESSION_SECRET ?? import.meta.env.SESSION_SECRET;
+  if (!sessionSecret) {
+    throw new Error('SESSION_SECRET is required for auth sessions.');
+  }
+  const signingKey = await crypto.subtle.importKey(
+    'raw',
+    new TextEncoder().encode(sessionSecret),
+    { name: 'HMAC', hash: 'SHA-256' },
+    false,
+    ['sign', 'verify'],
+  );
   const isValid = await crypto.subtle.verify(
     'HMAC',
-    await getSigningKey(),
+    signingKey,
     fromBase64UrlBytes(signature),
     new TextEncoder().encode(body),
   );

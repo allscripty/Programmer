@@ -9,11 +9,15 @@ export const prerender = false;
 export const GET: APIRoute = async (context: APIContext) => {
   const { cookies, redirect } = context;
 
+  const locals = (context as APIContext & {
+    locals?: { runtime?: { env?: Record<string, string> } };
+  }).locals;
+
   const platform = (context as APIContext & {
     platform?: { env?: Record<string, string> };
   }).platform;
 
-  const env = (platform?.env ?? import.meta.env) as Record<string, string>;
+  const env = (locals?.runtime?.env ?? platform?.env ?? import.meta.env) as Record<string, string>;
 
   const github = createGithubOAuth(env, context.url);
 

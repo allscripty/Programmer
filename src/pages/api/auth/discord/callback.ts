@@ -14,12 +14,16 @@ export const prerender = false;
 export const GET: APIRoute = async (context: APIContext) => {
   const { cookies, redirect, url } = context;
 
+  const locals = (context as APIContext & {
+    locals?: { runtime?: { env?: Record<string, string> } };
+  }).locals;
+
   // Get runtime env (Workers) or local dev env
   const platform = (context as APIContext & {
     platform?: { env?: Record<string, string> };
   }).platform;
 
-  const env = (platform?.env ?? import.meta.env) as Record<string, string>;
+  const env = (locals?.runtime?.env ?? platform?.env ?? import.meta.env) as Record<string, string>;
 
   const discord = createDiscordOAuth(env, url);
 
@@ -63,7 +67,7 @@ export const GET: APIRoute = async (context: APIContext) => {
     name: user.global_name ?? user.username ?? 'Discord User',
     avatar,
     provider: 'discord',
-  });
+  }, env);
 
   const isProd = import.meta.env.PROD;
 
