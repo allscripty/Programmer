@@ -2,44 +2,158 @@
 import { SESSION_COOKIE_NAME } from '../lib/auth';
 import { readSession } from '../lib/session';
 
+interface Props {
+  fixed?: boolean;
+  showOnLoad?: boolean;
+}
+
+const { fixed = false, showOnLoad = false } = Astro.props as Props;
+
 const session = Astro.isPrerendered
   ? null
   : await readSession(Astro.cookies.get(SESSION_COOKIE_NAME)?.value);
 
-const sessionHtml = session
-  ? `${session.avatar ? '<img src="' + session.avatar + '" alt="' + session.name + '" width="32" height="32" /> ' : ''}Logged in as <strong>${session.name}</strong> via ${session.provider}`
-  : '';
+const instanceId = `auth-${Math.random().toString(36).slice(2, 10)}`;
 ---
 
-<>
-  <div id="auth-status" data-session-html={sessionHtml}>
-    {session ? (
-      <p>
-        {session.avatar && (
-          <img src={session.avatar} alt={session.name} width="32" height="32" />
-        )}
-        {' '}Logged in as <strong>{session.name}</strong> via {session.provider}
-      </p>
-    ) : (
-      <p>
-        <a href="/api/auth/github">Login with GitHub</a>
-        {' · '}
-        <a href="/api/auth/discord">Login with Discord</a>
-      </p>
-    )}
+<div class:list={[fixed ? 'auth-widget-fixed' : 'auth-widget-inline']}>
+  <div class="auth-widget-status" id={`${instanceId}-status`}>
+    <button
+      id={`${instanceId}-sign-in`}
+      type="button"
+      class:list={['auth-sign-in-btn', session && 'hidden']}
+      aria-label="Open sign in"
+    >
+      Sign in
+    </button>
+
+    <div
+      id={`${instanceId}-profile`}
+      class:list={['auth-profile', !session && 'hidden']}
+      aria-label="Signed in user"
+    >
+      {session?.avatar && (
+        <img
+          id={`${instanceId}-avatar`}
+          src={session.avatar}
+          alt={session.name}
+          width="28"
+          height="28"
+        />
+      )}
+      {!session?.avatar && <span id={`${instanceId}-avatar-fallback`} class="auth-avatar-fallback" />}
+      <span id={`${instanceId}-username`}>{session?.name}</span>
+    </div>
   </div>
 
-  <script is:inline>
+  <div id={`${instanceId}-modal`} class="auth-modal hidden" role="dialog" aria-modal="true" aria-label="Join our community">
+    <div class="auth-modal-panel">
+      <button
+        id={`${instanceId}-close`}
+        type="button"
+        class="auth-close-btn"
+        aria-label="Close sign up dialog"
+      >
+        ×
+      </button>
+
+      <h2 class="auth-title">Join our community</h2>
+      <div class="auth-actions">
+        <a href="/api/auth/github" class="auth-action-btn">Sign Up with GitHub</a>
+        <a href="/api/auth/discord" class="auth-action-btn">Sign Up with Discord</a>
+      </div>
+    </div>
+  </div>
+
+  <script is:inline define:vars={{ instanceId, fixed, showOnLoad }}>
     (function () {
-      const container = document.getElementById('auth-status');
-      if (!container) return;
+      const signInButton = document.getElementById(instanceId + '-sign-in');
+      const profile = document.getElementById(instanceId + '-profile');
+      const username = document.getElementById(instanceId + '-username');
+      const avatar = document.getElementById(instanceId + '-avatar');
+      const avatarFallback = document.getElementById(instanceId + '-avatar-fallback');
+      const modal = document.getElementById(instanceId + '-modal');
+      const closeButton = document.getElementById(instanceId + '-close');
 
-      const loginHtml =
-        '<p><a href="/api/auth/github">Login with GitHub</a> · <a href="/api/auth/discord">Login with Discord</a></p>';
-      const initialSessionHtml = container.getAttribute('data-session-html');
+      if (!signInButton || !profile || !username || !modal || !closeButton) return;
 
-      if (initialSessionHtml) {
-        container.innerHTML = '<p>' + initialSessionHtml + '</p>';
+      if (modal.parentElement !== document.body) {
+        document.body.appendChild(modal);
+      }
+
+      function ensureAvatarFallback() {
+        var fallback = document.getElementById(instanceId + '-avatar-fallback');
+        if (!fallback) {
+          fallback = document.createElement('span');
+          fallback.id = instanceId + '-avatar-fallback';
+          fallback.className = 'auth-avatar-fallback';
+          profile.insertBefore(fallback, profile.firstChild);
+        }
+        return fallback;
+      }
+
+      function ensureAvatarImage() {
+        var image = document.getElementById(instanceId + '-avatar');
+        if (!image) {
+          image = document.createElement('img');
+          image.id = instanceId + '-avatar';
+          image.width = 28;
+          image.height = 28;
+          profile.insertBefore(image, profile.firstChild);
+        }
+        return image;
+      }
+
+      function setLoggedIn(nextSession) {
+        signInButton.classList.add('hidden');
+        profile.classList.remove('hidden');
+        username.textContent = nextSession.name || 'User';
+
+        if (nextSession.avatar) {
+          var image = ensureAvatarImage();
+          image.src = nextSession.avatar;
+          image.alt = nextSession.name || 'User';
+          image.classList.remove('hidden');
+          if (avatarFallback) avatarFallback.classList.add('hidden');
+          var fallbackNode = document.getElementById(instanceId + '-avatar-fallback');
+          if (fallbackNode) fallbackNode.classList.add('hidden');
+        } else {
+          var existingImage = document.getElementById(instanceId + '-avatar');
+          if (existingImage) existingImage.classList.add('hidden');
+          ensureAvatarFallback().classList.remove('hidden');
+        }
+      }
+
+      function setLoggedOut() {
+        profile.classList.add('hidden');
+        signInButton.classList.remove('hidden');
+      }
+
+      function openModal() {
+        modal.classList.remove('hidden');
+        document.body.classList.add('auth-modal-open');
+      }
+
+      function closeModal() {
+        modal.classList.add('hidden');
+        document.body.classList.remove('auth-modal-open');
+      }
+
+      signInButton.addEventListener('click', openModal);
+      closeButton.addEventListener('click', closeModal);
+      modal.addEventListener('click', function (event) {
+        if (event.target === modal) closeModal();
+      });
+      document.addEventListener('keydown', function (event) {
+        if (event.key === 'Escape') closeModal();
+      });
+
+      if (showOnLoad && !fixed && !profile.classList.contains('hidden')) {
+        closeModal();
+      }
+
+      if (showOnLoad && profile.classList.contains('hidden')) {
+        openModal();
       }
 
       fetch('/api/auth/session', { credentials: 'include' })
@@ -48,22 +162,160 @@ const sessionHtml = session
         })
         .then(function (data) {
           if (!data || !data.session) {
-            container.innerHTML = loginHtml;
+            setLoggedOut();
             return;
           }
 
-          const avatar = data.session.avatar
-            ? '<img src="' + data.session.avatar + '" alt="' + data.session.name + '" width="32" height="32" /> '
-            : '';
-
-          container.innerHTML =
-            '<p>' + avatar + 'Logged in as <strong>' + data.session.name + '</strong> via ' + data.session.provider + '</p>';
+          setLoggedIn(data.session);
+          closeModal();
         })
         .catch(function () {
-          if (!initialSessionHtml) {
-            container.innerHTML = loginHtml;
-          }
+          if (profile.classList.contains('hidden')) setLoggedOut();
         });
     })();
   </script>
-</>
+
+  <style>
+    .auth-widget-fixed {
+      position: fixed;
+      top: 1rem;
+      right: 1rem;
+      z-index: 70;
+    }
+
+    .auth-widget-inline {
+      position: relative;
+      display: inline-flex;
+      align-items: center;
+    }
+
+    .auth-widget-status {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .auth-sign-in-btn,
+    .auth-profile {
+      border: 1px solid color-mix(in oklab, var(--sl-color-gray-4) 70%, transparent);
+      background: color-mix(in oklab, var(--sl-color-white) 90%, transparent);
+      color: var(--sl-color-text);
+      border-radius: 999px;
+      padding: 0.35rem 0.8rem;
+      font-size: 0.84rem;
+      font-weight: 600;
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+    }
+
+    :global(:root[data-theme='dark']) .auth-sign-in-btn,
+    :global(:root[data-theme='dark']) .auth-profile {
+      background: color-mix(in oklab, var(--sl-color-black) 65%, transparent);
+      border-color: color-mix(in oklab, var(--sl-color-gray-4) 45%, transparent);
+    }
+
+    .auth-sign-in-btn {
+      cursor: pointer;
+    }
+
+    .auth-sign-in-btn:hover {
+      opacity: 0.9;
+    }
+
+    .auth-profile {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.45rem;
+    }
+
+    .auth-profile img,
+    .auth-avatar-fallback {
+      width: 28px;
+      height: 28px;
+      border-radius: 999px;
+      flex-shrink: 0;
+    }
+
+    .auth-avatar-fallback {
+      background: color-mix(in oklab, var(--sl-color-accent) 32%, var(--sl-color-bg));
+      display: inline-block;
+    }
+
+    .auth-modal {
+      position: fixed;
+      inset: 0;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 1rem;
+      background: rgba(24, 24, 27, 0.35);
+      backdrop-filter: blur(3px);
+      -webkit-backdrop-filter: blur(3px);
+    }
+
+    .auth-modal.hidden,
+    .hidden {
+      display: none;
+    }
+
+    .auth-modal-panel {
+      position: relative;
+      width: min(100%, 24rem);
+      border-radius: 1rem;
+      border: 1px solid color-mix(in oklab, var(--sl-color-gray-4) 50%, transparent);
+      background: var(--sl-color-bg);
+      box-shadow: 0 20px 45px rgba(0, 0, 0, 0.25);
+      padding: 1.2rem;
+    }
+
+    .auth-close-btn {
+      position: absolute;
+      top: 0.5rem;
+      right: 0.6rem;
+      border: 0;
+      background: transparent;
+      color: var(--sl-color-text-accent);
+      font-size: 1.3rem;
+      line-height: 1;
+      cursor: pointer;
+      padding: 0.25rem;
+    }
+
+    .auth-title {
+      margin: 0 0 1rem;
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: var(--sl-color-text);
+      text-align: center;
+    }
+
+    .auth-actions {
+      display: flex;
+      flex-direction: column;
+      gap: 0.7rem;
+    }
+
+    .auth-action-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 0.75rem;
+      padding: 0.72rem 0.85rem;
+      font-size: 0.92rem;
+      font-weight: 700;
+      text-decoration: none;
+      color: var(--sl-color-text);
+      border: 1px solid color-mix(in oklab, var(--sl-color-gray-4) 60%, transparent);
+      background: color-mix(in oklab, var(--sl-color-white) 86%, transparent);
+    }
+
+    :global(:root[data-theme='dark']) .auth-action-btn {
+      background: color-mix(in oklab, var(--sl-color-black) 62%, transparent);
+    }
+
+    .auth-action-btn:hover {
+      opacity: 0.9;
+    }
+  </style>
+</div>

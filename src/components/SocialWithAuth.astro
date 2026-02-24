@@ -1,0 +1,17 @@
+---
+import SocialIcons from '@astrojs/starlight/components/SocialIcons.astro';
+import AuthStatus from './AuthStatus.astro';
+---
+
+<div class="social-auth-wrap">
+  <SocialIcons />
+  <AuthStatus />
+</div>
+
+<style>
+  .social-auth-wrap {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+</style>

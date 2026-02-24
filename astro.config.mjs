@@ -17,6 +17,9 @@ export default defineConfig({
       customCss: [
         './src/styles/global.css',
       ],
+      components: {
+        SocialIcons: './src/components/SocialWithAuth.astro',
+      },
       social: [
         { icon: 'github', href: 'https://github.com/allscripty/Programmer', label: 'GitHub' },
       ],
