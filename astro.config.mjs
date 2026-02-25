@@ -14,6 +14,7 @@ export default defineConfig({
   integrations: [
     starlight({
       title: 'Code Club',
+      favicon: '/favicon_io/favicon.ico',
       customCss: [
         './src/styles/global.css',
       ],
@@ -22,6 +23,13 @@ export default defineConfig({
       },
       social: [
         { icon: 'github', href: 'https://github.com/allscripty/Programmer', label: 'GitHub' },
+      ],
+      head: [
+        { tag: 'link', attrs: { rel: 'icon', type: 'image/x-icon', href: '/favicon_io/favicon.ico' } },
+        { tag: 'link', attrs: { rel: 'icon', type: 'image/png', sizes: '32x32', href: '/favicon_io/favicon-32x32.png' } },
+        { tag: 'link', attrs: { rel: 'icon', type: 'image/png', sizes: '16x16', href: '/favicon_io/favicon-16x16.png' } },
+        { tag: 'link', attrs: { rel: 'apple-touch-icon', sizes: '180x180', href: '/favicon_io/apple-touch-icon.png' } },
+        { tag: 'link', attrs: { rel: 'manifest', href: '/favicon_io/site.webmanifest' } },
       ],
       // Adds a nice "Edit this page" link to the bottom of all notes
       editLink: {
